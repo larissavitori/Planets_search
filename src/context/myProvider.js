@@ -9,6 +9,7 @@ function Provider({ children }) {
   const fetchApi = async (url) => {
     const result = await fetch(url);
     const data = await result.json();
+    delete data.residents;
     return setPlanets(data.results);
   };
 

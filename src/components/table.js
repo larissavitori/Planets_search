@@ -1,9 +1,18 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Mycontext from '../context/myContext';
 
 function Table() {
-  const { planets } = useContext(Mycontext);
-  console.log(planets);
+  const [search, setSearch] = useState('');
+  const { planets, setPlanets } = useContext(Mycontext);
+  console.log(search);
+
+  const handlechange = ({ target }) => {
+    setSearch(target.value);
+    if (!search) {
+      setPlanets(planets);
+    }
+  };
+  const filter = planets.filter(({ name }) => name.includes(search));
 
   return (
     <table>
@@ -37,7 +46,8 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { planets.map((planetas) => (
+
+        { filter.map((planetas) => (
           <tr key={ planetas.name }>
             <td>
               {planetas.name}
@@ -80,6 +90,13 @@ function Table() {
             </td>
           </tr>
         ))}
+        <input
+          data-testid="name-filter"
+          type="text"
+          value={ search }
+          onChange={ handlechange }
+          placeholder="Name"
+        />
       </tbody>
     </table>
   );
