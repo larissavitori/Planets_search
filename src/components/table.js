@@ -11,18 +11,17 @@ function Table() {
   const [number, setNumber] = useState(0);
   console.log(Coluna, number, operador);
 
+  /*   useEffect(() => {
+  }); */
   const handlechange = ({ target }) => {
     setSearch(target.value);
     if (!search) {
       setPlanets(planets);
-    } else {
+    } /* else {
       setPlanets(filtroCampos);
-    }
+    } */
   };
   const filterName = planets.filter(({ name }) => name.includes(search));
-
-  /*   useEffect(() => {
-  }); */
   // ajuda da natalia Brasil t27B
   const handleClickFilter = () => {
     const filtroCampos = filterName.filter((planetas) => {
