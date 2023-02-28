@@ -9,7 +9,6 @@ function Table() {
   const [Coluna, setColuna] = useState('population');
   const [operador, setOperador] = useState('maior que');
   const [number, setNumber] = useState(0);
-  console.log(Coluna, number, operador);
 
   /*   useEffect(() => {
   }); */
@@ -22,7 +21,7 @@ function Table() {
     } */
   };
   const filterName = planets.filter(({ name }) => name.includes(search));
-  // ajuda da natalia Brasil t27B
+  // ajuda da natalia Brasil t27B && monitoria da manhã
   const handleClickFilter = () => {
     const filtroCampos = filterName.filter((planetas) => {
       switch (operador) {
@@ -141,12 +140,13 @@ function Table() {
           } }
         >
           <option>maior que</option>
-          <option>menor que </option>
-          <option>igual a </option>
+          <option>menor que</option>
+          <option>igual a</option>
         </select>
         <input
           data-testid="value-filter"
           type="number"
+          value={ number }
           onChange={ ({ target }) => {
             setNumber(target.value);
           } }
