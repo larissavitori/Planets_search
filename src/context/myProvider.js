@@ -4,8 +4,7 @@ import MyContext from './myContext';
 
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
-  const [arrayFiltro, setFiltro] = useState([]);
-  console.log(planets);
+  const [Filtros, setFiltros] = useState([]);
 
   const fetchApi = async (url) => {
     const result = await fetch(url);
@@ -21,8 +20,8 @@ function Provider({ children }) {
   }, []);
 
   const values = useMemo(() => ({
-    planets, setPlanets, arrayFiltro, setFiltro,
-  }), [planets, arrayFiltro]);
+    planets, setPlanets, Filtros, setFiltros,
+  }), [planets, Filtros]);
 
   return (
     <MyContext.Provider value={ values }>

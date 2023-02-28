@@ -3,12 +3,15 @@ import Mycontext from '../context/myContext';
 
 function Table() {
   const { planets, setPlanets } = useContext(Mycontext);
-  // const { arrayFiltro, setFiltro } = useContext(Mycontext);
+  // const { Filtros, setFiltros } = useContext(Mycontext);
 
   const [search, setSearch] = useState('');
-  const [Coluna, setColuna] = useState('population');
+  const [coluna, setColuna] = useState('population');
   const [operador, setOperador] = useState('maior que');
   const [number, setNumber] = useState(0);
+  const [filtercolun, setFiltercolun] = useState(['population', 'orbital_period',
+    'diameter', 'rotation_period',
+    'surface_water']);
 
   /*   useEffect(() => {
   }); */
@@ -20,23 +23,33 @@ function Table() {
       setPlanets(filtroCampos);
     } */
   };
+  // filtrei pelo nome
   const filterName = planets.filter(({ name }) => name.includes(search));
   // ajuda da natalia Brasil t27B && monitoria da manhã
   const handleClickFilter = () => {
+    // coloquei filtro das colunas
     const filtroCampos = filterName.filter((planetas) => {
       switch (operador) {
       case 'maior que':
-        return +(planetas[Coluna]) > +(number);
+        return +(planetas[coluna]) > +(number);
+
       case 'menor que':
-        return +(planetas[Coluna]) < +(number);
+        return +(planetas[coluna]) < +(number);
+
       case 'igual a':
-        return +(planetas[Coluna]) === +(number);
+        return +(planetas[coluna]) === +(number);
       default:
         return true;
       }
     });
-    return setPlanets(filtroCampos);
+    setPlanets(filtroCampos);
+    const filteredList = filtercolun.filter((el) => !coluna.includes(el));
+    setFiltercolun(filteredList);
+    // logica stack-over flow
+    setColuna(filteredList[0]);
   };
+  /* const filteredOptions = filterName.filter((e) => !coluna.includes(e));
+  console.log(filteredOptions); */
   return (
     <table>
       <thead>
@@ -69,7 +82,11 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-
+        <span>
+          {coluna}
+          {operador}
+          {number}
+        </span>
         { filterName.map((planetas) => (
           <tr key={ planetas.name }>
             <td>
@@ -126,15 +143,16 @@ function Table() {
             setColuna(target.value);
           } }
         >
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          { filtercolun.map((column) => (
+            <option value={ column } key={ column }>
+              {column}
+            </option>
+          ))}
         </select>
         <br />
         <select
           data-testid="comparison-filter"
+          value={ operador }
           onChange={ ({ target }) => {
             setOperador(target.value);
           } }
@@ -160,8 +178,8 @@ function Table() {
 
         </button>
         <br />
-        {/*   {arrayFiltro.map((planetas) => (
-          <div key={ planetas.name }>
+        {/*   {Filtros.map((planetas, index) => (
+          <div key={ index }>
             {planetas}
             <br />
           </div>

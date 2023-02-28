@@ -1,9 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from '../App';
+import Table from '../components/table';
 
-test('I am your test', () => {
+test('testa a quantidade de colunas', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Hello, App!/i);
+  const linkElement = getByRole('columnheader', { name: /name/i })
   expect(linkElement).toBeInTheDocument();
 });
