@@ -22,7 +22,7 @@ function Provider({ children }) {
 
   const values = useMemo(() => ({
     planets, setPlanets, arrayFiltro, setFiltro,
-  }), [planets, setPlanets, arrayFiltro, setFiltro]);
+  }), [planets, arrayFiltro]);
 
   return (
     <MyContext.Provider value={ values }>

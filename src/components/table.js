@@ -4,7 +4,6 @@ import Mycontext from '../context/myContext';
 function Table() {
   const { planets, setPlanets } = useContext(Mycontext);
   // const { arrayFiltro, setFiltro } = useContext(Mycontext);
-  console.log(arrayFiltro);
 
   const [search, setSearch] = useState('');
   const [Coluna, setColuna] = useState('population');
