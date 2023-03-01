@@ -4,14 +4,15 @@ import MyContext from './myContext';
 
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
-  const [Filtros, setFiltros] = useState([]);
+  const [filtros, setFiltros] = useState([]);
 
   const fetchApi = async (url) => {
     const result = await fetch(url);
     const data = await result.json();
     const resultado = data.results;
     resultado.filter((data1) => delete data1.residents);
-    return setPlanets(data.results);
+    setPlanets(data.results);
+    // setFiltros(data.results);
   };
 
   useEffect(() => {
@@ -20,8 +21,8 @@ function Provider({ children }) {
   }, []);
 
   const values = useMemo(() => ({
-    planets, setPlanets, Filtros, setFiltros,
-  }), [planets, Filtros]);
+    planets, setPlanets, filtros, setFiltros,
+  }), [planets, filtros]);
 
   return (
     <MyContext.Provider value={ values }>

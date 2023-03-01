@@ -3,7 +3,7 @@ import Mycontext from '../context/myContext';
 
 function Table() {
   const { planets, setPlanets } = useContext(Mycontext);
-  // const { Filtros, setFiltros } = useContext(Mycontext);
+  // const { filtros, setFiltros } = useContext(Mycontext);
 
   const [search, setSearch] = useState('');
   const [coluna, setColuna] = useState('population');
@@ -12,9 +12,17 @@ function Table() {
   const [filtercolun, setFiltercolun] = useState(['population', 'orbital_period',
     'diameter', 'rotation_period',
     'surface_water']);
+  const [estados, setEstados] = useState([]);
 
-  /*   useEffect(() => {
-  }); */
+  /*  useEffect(() => {
+    const handleClickButon = (index) => {
+      const novoArray = [...estados];
+      novoArray.splice(index, 1);
+      setEstados(novoArray);
+      setPlanets(filterName);
+    };
+  }, [filtros, filterName, estados]); */
+
   const handlechange = ({ target }) => {
     setSearch(target.value);
     if (!search) {
@@ -42,11 +50,19 @@ function Table() {
         return true;
       }
     });
+    // setPlanets(filtroCampos);
     setPlanets(filtroCampos);
     const filteredList = filtercolun.filter((el) => !coluna.includes(el));
     setFiltercolun(filteredList);
     // logica stack-over flow
     setColuna(filteredList[0]);
+    setEstados([...estados, { number, operador, coluna }]);
+  };
+  const handleClickButon = (index) => {
+    const novoArray = [...estados];
+    novoArray.splice(index, 1);
+    setEstados(novoArray);
+    setPlanets(filterName);
   };
   /* const filteredOptions = filterName.filter((e) => !coluna.includes(e));
   console.log(filteredOptions); */
@@ -82,11 +98,6 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        <span>
-          {coluna}
-          {operador}
-          {number}
-        </span>
         { filterName.map((planetas) => (
           <tr key={ planetas.name }>
             <td>
@@ -178,12 +189,34 @@ function Table() {
 
         </button>
         <br />
-        {/*   {Filtros.map((planetas, index) => (
-          <div key={ index }>
-            {planetas}
-            <br />
+        { estados.map((filter, index) => (
+          <div data-testid="filter" key={ index }>
+            <span>
+              { filter.coluna}
+              {' '}
+              {filter.operador}
+              {' '}
+              {filter.number }
+            </span>
+            <button
+              data-testid="filter"
+              onClick={ () => { handleClickButon(index); } }
+            >
+              delete
+            </button>
           </div>
-        ))} */}
+        ))}
+        <button
+          data-testid="button-remove-filters"
+          onClick={ () => {
+            setEstados([]);
+            setColuna('');
+            setNumber('');
+            setOperador('');
+          } }
+        >
+          Remover Filtros
+        </button>
       </tbody>
     </table>
   );
