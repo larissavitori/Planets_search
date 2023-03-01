@@ -12,7 +12,7 @@ function Provider({ children }) {
     const resultado = data.results;
     resultado.filter((data1) => delete data1.residents);
     setPlanets(data.results);
-    // setFiltros(data.results);
+    setFiltros(data.results);
   };
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import Mycontext from '../context/myContext';
 
 function Table() {
   const { planets, setPlanets } = useContext(Mycontext);
-  // const { filtros, setFiltros } = useContext(Mycontext);
+  const { filtros } = useContext(Mycontext);
 
   const [search, setSearch] = useState('');
   const [coluna, setColuna] = useState('population');
@@ -13,15 +13,11 @@ function Table() {
     'diameter', 'rotation_period',
     'surface_water']);
   const [estados, setEstados] = useState([]);
+  const [prev, setPrev] = useState([]);
 
   /*  useEffect(() => {
-    const handleClickButon = (index) => {
-      const novoArray = [...estados];
-      novoArray.splice(index, 1);
-      setEstados(novoArray);
-      setPlanets(filterName);
-    };
-  }, [filtros, filterName, estados]); */
+    setPlanets(planets);
+  }, [planets]); */
 
   const handlechange = ({ target }) => {
     setSearch(target.value);
@@ -36,6 +32,7 @@ function Table() {
   // ajuda da natalia Brasil t27B && monitoria da manhã
   const handleClickFilter = () => {
     // coloquei filtro das colunas
+    setPrev(planets);
     const filtroCampos = filterName.filter((planetas) => {
       switch (operador) {
       case 'maior que':
@@ -50,7 +47,6 @@ function Table() {
         return true;
       }
     });
-    // setPlanets(filtroCampos);
     setPlanets(filtroCampos);
     const filteredList = filtercolun.filter((el) => !coluna.includes(el));
     setFiltercolun(filteredList);
@@ -58,11 +54,21 @@ function Table() {
     setColuna(filteredList[0]);
     setEstados([...estados, { number, operador, coluna }]);
   };
-  const handleClickButon = (index) => {
-    const novoArray = [...estados];
+  const handleClickButon = ({ target }) => {
+    /* const novoArray = [...estados];
     novoArray.splice(index, 1);
     setEstados(novoArray);
     setPlanets(filterName);
+    console.log(filterName); */
+    if (estados.length > 1) {
+      const novoArray = estados.filter((estado) => estado.coluna !== target.id);
+      setEstados(novoArray);
+      setPlanets(prev);
+    } else if (estados) {
+      const novoArray = estados.filter((estado) => estado.coluna !== target.id);
+      setEstados(novoArray);
+      setPlanets(filtros);
+    }
   };
   /* const filteredOptions = filterName.filter((e) => !coluna.includes(e));
   console.log(filteredOptions); */
@@ -199,8 +205,8 @@ function Table() {
               {filter.number }
             </span>
             <button
-              data-testid="filter"
-              onClick={ () => { handleClickButon(index); } }
+              id={ filter.coluna }
+              onClick={ handleClickButon }
             >
               delete
             </button>
@@ -213,6 +219,7 @@ function Table() {
             setColuna('');
             setNumber('');
             setOperador('');
+            setPlanets(filtros);
           } }
         >
           Remover Filtros
