@@ -40,11 +40,8 @@ function Table() {
 
       case 'menor que':
         return +(planetas[coluna]) < +(number);
-
-      case 'igual a':
-        return +(planetas[coluna]) === +(number);
       default:
-        return true;
+        return +(planetas[coluna]) === +(number);
       }
     });
     setPlanets(filtroCampos);

@@ -32,7 +32,7 @@ describe('test', () => {
     expect(nameInput).toBeInTheDocument();
     expect(input).toBeVisible();
  });
- test('preencher tabela com dados retornados ', async () => {
+ test('preencher tabela com dados retornados menor que  ', async () => {
    render(<Myprovider><App /></Myprovider>)
    await waitingTimer(4000)
    const compare = screen.getByTestId("comparison-filter");
@@ -48,19 +48,14 @@ describe('test', () => {
    userEvent.click(screen.getByTestId('button-filter'));
    expect(row).toHaveLength(11);
 
-    
-  
    /* expect(value).toBeInTheDocument();
    expect(inputColuna[0].innerHTML).toContain('orbital_period')
    expect(compare).toBeInTheDocument();
    expect(inputColuna).toBeInTheDocument();
    expect(testAPIRender[0].innerHTML).toContain('23'); */
-
-   userEvent.click(screen.getByTestId('button-remove-filters'));
-  
    // userEvent.click(screen.getByTestId('data-testid="filter'));
 });
-test('click do botão deletar', async () => {
+test('click do botão maior que ', async () => {
   render(<Myprovider><App /></Myprovider>)
   const compare = screen.getByTestId("comparison-filter");
   const value = screen.getByTestId("value-filter");
@@ -74,7 +69,7 @@ test('click do botão deletar', async () => {
   userEvent.click(screen.getByTestId('button-filter'));
   expect(row).toHaveLength(11);
 })
-test('click do botão deletar', async () => {
+test('click do botão igual a', async () => {
   render(<Myprovider><App /></Myprovider>)
   const compare = screen.getByTestId("comparison-filter");
   const value = screen.getByTestId("value-filter");
@@ -84,8 +79,31 @@ test('click do botão deletar', async () => {
   userEvent.selectOptions(compare, screen.getByRole('option', { name: 'igual a'}))
   userEvent.type(value, '10');
   const row = screen.queryAllByRole('row')
-  expect(row).toHaveLength(11);
   userEvent.click(screen.getByTestId('button-filter'));
   expect(row).toHaveLength(11);
+
+  const filtrobusca = screen.getByTestId('filter');
+  expect(filtrobusca).toBeInTheDocument();
+
+  const deletar = screen.getByRole('button', {
+    name: /delete/i
+  });
+
+  userEvent.click(deletar);
+  userEvent.click(screen.getByTestId('button-remove-filters'));
+
+})
+test('click do botão deletar', async () => {
+  render(<Myprovider><App /></Myprovider>)
+  /* const compare = screen.getByTestId("comparison-filter");
+  const value = screen.getByTestId("value-filter");
+  const inputColuna = await screen.findByTestId("column-filter");
+  
+  userEvent.selectOptions(inputColuna, screen.getByRole('option', { name: 'surface_water'}))
+  userEvent.selectOptions(compare, screen.getByRole('option', { name: 'igual a'}))
+  userEvent.type(value, 'larrr');
+  const row = screen.queryAllByRole('row')
+  userEvent.click(screen.getByTestId('button-filter'));
+  expect(row).toHaveLength(11); */
 })
 })
